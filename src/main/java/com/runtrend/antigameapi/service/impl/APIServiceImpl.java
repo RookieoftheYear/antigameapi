@@ -1,7 +1,7 @@
 package com.runtrend.antigameapi.service.impl;
 
 import com.runtrend.antigameapi.dao.*;
-import com.runtrend.antigameapi.pojo.Huawei;
+import com.runtrend.antigameapi.pojo.FENGHUO;
 import com.runtrend.antigameapi.pojo.RegisterReply;
 import com.runtrend.antigameapi.pojo.SubscribeBean;
 import com.runtrend.antigameapi.pojo.UnsubscribeBean;
@@ -45,7 +45,7 @@ public class APIServiceImpl implements APIService {
         String ponmodel = subscribeBean.getPonmodel();
         String ad = subscribeBean.getAd();
         String mac = Optional.of(subscribeBean.getMac())
-                .filter(x -> !EnumUtils.isValidEnum(Huawei.class, ponmodel) && x.endsWith("0"))
+                .filter(x -> !(EnumUtils.isValidEnum(FENGHUO.class, ponmodel) && x.endsWith("0")))
                 .orElseGet(() -> subscribeBean.getMac().substring(0, subscribeBean.getMac().length() - 1) + "C");
 
         Optional.of(cuccRegisterService.check(ad))
@@ -104,9 +104,10 @@ public class APIServiceImpl implements APIService {
         SubscribeBean subscribeBean = new SubscribeBean();
         subscribeBean.setPonmodel("HG6543C1");
         String ponmodel = subscribeBean.getPonmodel();
-        subscribeBean.setMac("dwadwadw0");
+        subscribeBean.setMac("8C68C806E2F0");
+        System.out.println(EnumUtils.isValidEnum(FENGHUO.class, ponmodel));
         String mac = Optional.of(subscribeBean.getMac())
-                .filter(x -> !EnumUtils.isValidEnum(Huawei.class, ponmodel) && x.endsWith("0"))
+                .filter(x -> !(EnumUtils.isValidEnum(FENGHUO.class, ponmodel) && x.endsWith("0")))
                 .orElseGet(() -> subscribeBean.getMac().substring(0, subscribeBean.getMac().length() - 1) + "C");
         System.out.println(mac);
 

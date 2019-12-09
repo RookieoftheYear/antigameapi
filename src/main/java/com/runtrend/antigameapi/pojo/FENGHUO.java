@@ -7,7 +7,7 @@ package com.runtrend.antigameapi.pojo;
  * @Description: TODO
  * @date 2019/11/2720:47
  */
-public enum Huawei {
+public enum FENGHUO {
 
     HG2201T,HG6201T,HG2543C1,HG6543C1
 }
