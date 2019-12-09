@@ -9,5 +9,5 @@ package com.runtrend.antigameapi.pojo;
  */
 public enum FENGHUO {
 
-    HG2201T,HG6201T,HG2543C1,HG6543C1
+    HG2201,HG6201,HG2543,HG6543
 }

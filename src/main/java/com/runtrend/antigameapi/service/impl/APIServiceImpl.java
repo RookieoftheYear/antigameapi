@@ -14,6 +14,7 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -45,7 +46,13 @@ public class APIServiceImpl implements APIService {
         String ponmodel = subscribeBean.getPonmodel();
         String ad = subscribeBean.getAd();
         String mac = Optional.of(subscribeBean.getMac())
-                .filter(x -> !(EnumUtils.isValidEnum(FENGHUO.class, ponmodel) && x.endsWith("0")))
+                .filter(x ->
+                        !(EnumUtils.getEnumList(FENGHUO.class)
+                                .stream()
+                                .map(Enum::toString)
+                                .anyMatch(ponmodel::contains)
+                                && x.endsWith("0"))
+                )
                 .orElseGet(() -> subscribeBean.getMac().substring(0, subscribeBean.getMac().length() - 1) + "C");
 
         Optional.of(cuccRegisterService.check(ad))
@@ -102,14 +109,23 @@ public class APIServiceImpl implements APIService {
 
     public static void main(String[] args) {
         SubscribeBean subscribeBean = new SubscribeBean();
-        subscribeBean.setPonmodel("HG6543C1");
+        subscribeBean.setPonmodel("22e2HG2543323211");
         String ponmodel = subscribeBean.getPonmodel();
         subscribeBean.setMac("8C68C806E2F0");
-        System.out.println(EnumUtils.isValidEnum(FENGHUO.class, ponmodel));
+        List<FENGHUO> enumList = EnumUtils.getEnumList(FENGHUO.class);
+
         String mac = Optional.of(subscribeBean.getMac())
-                .filter(x -> !(EnumUtils.isValidEnum(FENGHUO.class, ponmodel) && x.endsWith("0")))
+                .filter(x ->
+                        !(EnumUtils.getEnumList(FENGHUO.class)
+                                .stream()
+                                .map(Enum::toString)
+                                .anyMatch(ponmodel::contains)
+                                && x.endsWith("0"))
+                )
                 .orElseGet(() -> subscribeBean.getMac().substring(0, subscribeBean.getMac().length() - 1) + "C");
         System.out.println(mac);
+//                .orElseGet(() -> subscribeBean.getMac().substring(0, subscribeBean.getMac().length() - 1) + "C");
+//        System.out.println(mac);
 
         String data = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
 //        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
